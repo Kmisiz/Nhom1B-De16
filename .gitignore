@@ -1,0 +1,22 @@
+# Bí mật và khóa: không bao giờ đưa lên Git
+.env
+*.env
+!*.env.example
+*.pem
+*.key
+*.gpg
+*.enc
+wazuh-passwords.txt
+wazuh-install-files.tar
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Hệ điều hành, editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
