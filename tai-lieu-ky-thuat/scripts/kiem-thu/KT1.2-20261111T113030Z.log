@@ -1,0 +1,4 @@
+Customer username: Traceback (most recent call last):
+  File "/opt/bank-app/kt12_test.py", line 9, in <module>
+    username = input("Customer username: ").strip()
+KeyboardInterrupt

@@ -1,0 +1,6 @@
+Customer username: 
+LOGIN HTTP: 200
+ADMIN AUDIT LOGS HTTP: 403
+Response: {"detail":"Bạn không có quyền thực hiện chức năng này."}
+
+KT1.2 DAT - RBAC CHAN KHACH HANG.

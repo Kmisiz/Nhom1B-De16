@@ -1,0 +1,8 @@
+===== KT3.1 - THREE FAILED LOGINS =====
+TIME: 2026-11-11T11:24:56.013392+00:00
+HOST: vps2-app-api
+Attempt 1: HTTP 401
+Attempt 2: HTTP 401
+Attempt 3: HTTP 401
+RESULT: 3/3 failed-login responses returned HTTP 401
+KT3.1 PASS

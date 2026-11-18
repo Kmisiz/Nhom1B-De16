@@ -1,0 +1,8 @@
+Username customer: 
+LOGIN HTTP: 200
+{"username":"user1","full_name":"Nguyễn Văn An","role":"customer","session_expires":"2026-11-11T12:00:02.178542+00:00"}
+
+MY-ACCOUNT HTTP: 200
+{"account_no":"1900888801","balance":48996000.0,"currency":"VND","updated_at":"2026-11-08T19:00:01.521182+00:00"}
+
+KT1.1 DAT
