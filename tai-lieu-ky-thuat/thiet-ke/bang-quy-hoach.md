@@ -35,7 +35,19 @@ Cổng 8080 là cổng nội bộ của hai chặng vps0 → vps1 và vps1 → v
 
 ### Luật lọc chính
 
-Mặc định chặn mọi kết nối đến, áp ở hai lớp: luật VPC (network tag) và UFW trong từng máy.
+Mặc định chặn mọi kết nối đến, lọc ở hai lớp:
+
+- **Luật VPC** của Google Cloud (lớp ngoài) chặn từ Internet: chỉ mở TCP 80, 443 vào máy có tag `web-public` (vps0) và TCP 22 vào máy có tag `bastion` (vps4). Trong subnet `10.10.10.0/24`, luật VPC chỉ giới hạn cổng, không giới hạn máy nguồn.
+- **UFW trong từng máy** (lớp trong) quyết định máy nào được vào cổng nào. Các luật chặn giữa hai máy trong subnet (FW-03, FW-05, FW-07) do UFW thực hiện.
+
+| Luật VPC | Nguồn | Cổng | Áp cho |
+|---|---|---|---|
+| `bank-fw-allow-web-vps0` | 0.0.0.0/0 | TCP 80, 443 | Tag `web-public` (vps0) |
+| `bank-fw-ssh-bastion` | 0.0.0.0/0 | TCP 22 | Tag `bastion` (vps4) |
+| `bank-fw-internal-subnet` | 10.10.10.0/24 | TCP 22, 8080, 5432, 514; UDP 514; ICMP | Mọi máy |
+| `allow-wazuh-siem-internal` | 10.10.10.0/24 | TCP 1514, 1515, 514; UDP 514 | Mọi máy |
+
+Luật lọc theo từng cặp máy (UFW):
 
 | Mã | Nguồn | Đích | Cổng | Hành động |
 |---|---|---|---|---|
@@ -51,8 +63,9 @@ Mặc định chặn mọi kết nối đến, áp ở hai lớp: luật VPC (ne
 | FW-10 | vps0–vps3 | vps4 | TCP 1514 | Cho phép (Wazuh agent gửi sự kiện) |
 | FW-11 | vps0–vps3 | vps4 | TCP 1515 | Cho phép (Wazuh agent đăng ký) |
 | FW-12 | Quản trị viên | vps4 | TCP 443 | Không mở trên UFW; chỉ qua SSH tunnel |
+| FW-13 | vps4 | vps1 | TCP 8080 | Cho phép (máy quản trị kiểm thử WAF: giới hạn tần suất, đăng nhập sai W3, đo độ trễ) |
 
-Đầu ra `ufw status verbose` từng máy nằm ở `cau-hinh/<máy>/<máy>.txt`.
+Ảnh `ufw status verbose` của từng máy nằm ở `cau-hinh/<máy>/ufw-<máy>_<giờ>.png`.
 
 ## 2. Ma trận phân quyền
 
