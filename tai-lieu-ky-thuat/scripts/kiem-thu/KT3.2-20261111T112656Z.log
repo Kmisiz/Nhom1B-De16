@@ -1,9 +1,0 @@
-===== KT3.2 - KIEM TRA BAO VE AUDIT_LOGS =====
-TIME: 2026-11-11T11:26:56+00:00
-HOST: vps3-data-db
-DATABASE: digital_bank
-could not change directory to "/home/vps-connection": Permission denied
-could not change directory to "/home/vps-connection": Permission denied
-DELETE_BLOCKED: t
-DROP_BLOCKED: t
-KT3.2 PASS - bank_app KHONG CO QUYEN DELETE/DROP audit_logs

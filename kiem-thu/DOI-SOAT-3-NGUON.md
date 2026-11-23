@@ -1,11 +1,21 @@
-# ĐỐI SOÁT SỰ KIỆN ĐĂNG NHẬP SAI TỪ 3 NGUỒN
+﻿# ĐỐI SOÁT SỰ KIỆN ĐĂNG NHẬP SAI TỪ 3 NGUỒN
 
-| Thời điểm đếm | Log thô VPS4 (grep -c) | Bảng audit_logs VPS3 (psql count) | Cảnh báo Wazuh (Từ SV1) | Độ lệch | Lý do lệch (nếu có) |
-|---|---|---|---|---|---|
-| **Trước khi thử**  | 0 | 105 | số wawuz từ sv1 | 0 | Không có |
-| **Sau khi thử 3 lần** | 3 | 108 | [Số cũ + 3 từ SV1] | 0 | 3 nguồn đồng bộ, ghi nhận đủ 3 sự kiện |
+## 1. Phạm vi kiểm thử
 
-**Kết luận:**
-Số lượng sự kiện `ACTION=LOGIN` và `STATUS=FAILED` tăng đồng đều thêm 3 sự kiện ở cả 3 luồng (Log cục bộ -> vps4, Log Database -> vps3, và Wazuh Agent -> vps4 Wazuh Server), chứng tỏ luồng nhật ký hoạt động ổn định và chính xác.
+Thực hiện demo 5.1 ngày 23/11/2026: tạo 3 lần đăng nhập sai bằng tài khoản `user1` trên VPS2. Đối chiếu số lượng sự kiện tại log tập trung VPS4, PostgreSQL VPS3 và Wazuh VPS4.
 
+## 2. Bảng đối soát
 
+| Nguồn dữ liệu | Trước khi thử | Sau khi thử | Mức tăng | Kết quả |
+|---|---:|---:|---:|---|
+| Log tập trung VPS4 | 6 | 9 | +3 | Khớp |
+| PostgreSQL VPS3 (`audit_logs`) | 52 | 55 | +3 | Khớp |
+| Wazuh VPS4 (rule `100102`) | 6 | 9 | +3 | Khớp |
+
+## 3. Kết luận
+
+Sau khi thực hiện 3 lần đăng nhập sai trên VPS2, cả ba nguồn dữ liệu đều tăng thêm đúng 3 sự kiện. Các lần đăng nhập đều trả về HTTP 401.
+
+Kết quả cho thấy luồng ghi nhận sự kiện đăng nhập thất bại từ ứng dụng, chuyển tiếp đến log tập trung, lưu trữ trong PostgreSQL và giám sát bằng Wazuh hoạt động đúng trong phạm vi demo 5.1.
+
+**Thời gian kiểm thử:** 23/11/2026, khoảng 04:20–04:26 UTC.
