@@ -1,4 +1,4 @@
-﻿# Bảng Kiểm Thử Hệ Thống (SV2 - Đề 16, Nhóm 1B)
+# Bảng Kiểm Thử Hệ Thống (SV2 - Đề 16, Nhóm 1B)
 
 | Đầu vào | Thao tác thực hiện | Kết quả mong đợi | Kết quả thực tế | Đánh giá (Đạt / Chưa đạt) | Bằng chứng xác thực |
 | :--- | :--- | :--- | :--- | :--- | :--- |
