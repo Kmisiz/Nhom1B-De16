@@ -1,0 +1,20 @@
+# Biện pháp đã demo và biện pháp chỉ đề xuất
+
+Bảng phân biệt biện pháp đã triển khai và kiểm thử trên hệ thống thật (có ảnh bằng chứng trong repo) với biện pháp chỉ đề xuất (chưa triển khai, nêu lý do).
+
+| Biện pháp | Trạng thái | Bằng chứng hoặc lý do |
+| :--- | :--- | :--- |
+| Phân vùng 5 máy, VPC firewall (SSH từ Internet chỉ vào bastion vps4), luật FW-01..13 bằng UFW | Đã demo | `kiem-thu/bang-chung/KT2/KT2-vps0-chan-vps2.png`, `KT2-vps0-chan-vps3.png`, `KT2-vps1-chan-vps3.png`, `KT2-vps2-vao-vps3.png`; `tai-lieu-ky-thuat/cau-hinh/vps0-web-public/ufw-vps0_2026-11-17T13-21-02.png`, `vps1-dmz-fw/ufw-vps1_2026-11-17T13-26-38.png`, `vps2-app-api/ufw-vps2_2026-11-17T13-28-30.png`, `vps3-data-db/ufw-vps3_2026-11-17T13-31-57.png`; `kiem-thu/bang-chung/ha-tang/B1-gcloud-firewall_2026-11-17.png`, `B1-ssh-vps0-bi-chan_2026-11-17.png`, `B1-ssh-vps1-bi-chan_2026-11-17.png`, `B1-ssh-vps4-bastion-mo_2026-11-17.png` |
+| HTTPS (TLS) trên vps0 | Đã demo | `kiem-thu/bang-chung/KT2/KT2-https-home.png`, `KT2-browser-ui.png` |
+| WAF chặn SQL injection, giới hạn tần suất đăng nhập, ẩn đường dẫn quản trị | Đã demo | `kiem-thu/bang-chung/KT2/KT2-waf-sqli.png`, `KT2-ratelimit-429.png`, `KT2-login-401.png`, `KT2-admin-404.png` |
+| RBAC 3 vai trò (customer, teller, admin), phiên JWT; mật khẩu băm bcrypt | Đã demo | `kiem-thu/bang-chung/SV3/B2-KT1-KT3-vps2_2026-11-19T18-21-07.png` (khách gọi API quản trị bị 403); `B3-api-vps2_2026-11-19T18-23-53.png` và `B3-api-FULL-vps2_log.txt` (token giả, ký sai khóa, `alg=none` bị 401; ma trận vai trò); băm bcrypt trong `tai-lieu-ky-thuat/ma-nguon/backend/main.py` (`CryptContext(schemes=["bcrypt"])`) |
+| Quyền tối thiểu của tài khoản `bank_app`, `pg_hba.conf` chỉ nhận từ vps2 | Đã demo | `kiem-thu/bang-chung/SV3/B1-quyen-toi-thieu-vps2_2026-11-19T18-23-37.png`, `B6-ha-tang-vps2_2026-11-19T18-22-39.png`, `B6-ha-tang-vps3_2026-11-19T18-26-14.png`; `tai-lieu-ky-thuat/cau-hinh/vps3-data-db/pg_hba.conf` |
+| Sao lưu mã hóa AES-256 và phục hồi | Đã demo | `kiem-thu/bang-chung/SV3/B5-backup-restore-vps3_2026-11-19T18-26-54.png`, `D51-b3-backup-ma-hoa_2026-11-19T18-15-40.png`, `D51-b4-gay-su-co_2026-11-19T18-15-57.png`, `D51-b6-doi-chieu_2026-11-19T18-16-21.png`, `D51-b7-quyen_2026-11-19T18-16-33.png` |
+| Log tập trung rsyslog TCP về vps4, bảng `audit_logs` | Đã demo | rsyslog: `kiem-thu/bang-chung/SIEM/B5-do-tre-rsyslog-wazuh_2026-11-17T16-52-08.png` (dòng đăng nhập sai sinh trên vps2 xuất hiện trong kho log vps4 sau 0,30–0,32 giây); `audit_logs`: `kiem-thu/bang-chung/SV3/B2-KT1-KT3-vps2_2026-11-19T18-21-07.png` (dòng `LOGIN FAILED`, `RBAC DENIED` trong CSDL) |
+| Wazuh SIEM: FIM giao diện web, phát hiện dò mật khẩu SSH, tương quan đăng nhập API sai | Đã demo | `kiem-thu/bang-chung/SIEM/W1-FIM-vps0_2026-11-17T16-49-38.png`, `W2-SSH-vps4_2026-11-17T16-50-03.png`, `W3-API-vps4_2026-11-17T16-50-17.png`, `W-alerts-vps4_2026-11-17T16-50-39.png`, dashboard `W0-agents-dashboard_2026-11-18T06-06-04.png`, `W1-FIM-dashboard_2026-11-18T06-06-20.png`; bảng `kiem-thu/BANG-KIEM-THU-SV1.md` |
+| Xác thực đa yếu tố (MFA) cho khách hàng và quản trị viên | Chỉ đề xuất | Cần dịch vụ OTP/SMS hoặc ứng dụng xác thực; ngoài phạm vi dữ liệu giả lập của bài |
+| Quản lý khóa bằng HSM hoặc Cloud KMS (khóa ký JWT, khóa sao lưu) | Chỉ đề xuất | Hiện khóa nằm trong tệp trên chính máy chủ (`.env` của ứng dụng trên vps2, passphrase sao lưu trên vps3); HSM/KMS phát sinh chi phí và phụ thuộc dịch vụ trả phí |
+| Máy dự phòng (HA) cho web, API, cơ sở dữ liệu | Chỉ đề xuất | Mỗi tầng một máy để giữ trong hạn mức GCP của bài; cần thêm máy và cân bằng tải |
+| Kho log bất biến (WORM, ví dụ Cloud Storage có retention lock) | Chỉ đề xuất | Log hiện nằm trên đĩa vps4; người có quyền root trên vps4 vẫn sửa được |
+| Chuyển bản sao lưu ra ngoài vps3 (máy khác hoặc Cloud Storage) | Chỉ đề xuất | Bản sao lưu đang nằm cùng máy với dữ liệu; mất vps3 thì mất cả hai |
+| Tách Wazuh indexer sang máy riêng, tăng RAM vps4 lên 8 GB | Chỉ đề xuất | vps4 có 3,8 GB, ba thành phần Wazuh dùng khoảng 2,8 GB, còn 856 MB khả dụng (`kiem-thu/bang-chung/ha-tang/B2-ram-vps4_2026-11-17T16-42-56.png`, `B2-wazuh-services_2026-11-17T16-43-05.png`) |
