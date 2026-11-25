@@ -83,7 +83,7 @@ kiem-thu/
   BANG-KIEM-THU-SV1.md … SV4.md      bảng kiểm thử 6 cột của từng thành viên
   DOI-SOAT-3-NGUON.md                đối soát số sự kiện ở kho log vps4, audit_logs vps3, alert Wazuh
   bang-chung/                        ảnh chụp terminal và dashboard có timestamp
-    ha-tang/  KT2/  SIEM/  SV3/  minhchung-SV4/
+    ha-tang/  KT1/  KT2/  KT3/  SIEM/  SV3/
 tai-lieu-ky-thuat/
   thiet-ke/                          sơ đồ, bảng quy hoạch, so sánh, đã demo và đề xuất
   ma-nguon/
@@ -294,7 +294,7 @@ Kết quả và ảnh bằng chứng của từng bài:
 | [`BANG-KIEM-THU-SV1.md`](kiem-thu/BANG-KIEM-THU-SV1.md) | Hạ tầng GCP, Wazuh SIEM, số đo so sánh | `kiem-thu/bang-chung/ha-tang/`, `kiem-thu/bang-chung/SIEM/` |
 | [`BANG-KIEM-THU-SV2.md`](kiem-thu/BANG-KIEM-THU-SV2.md) | KT2, Nginx, WAF, giới hạn tần suất | `kiem-thu/bang-chung/KT2/` |
 | [`BANG-KIEM-THU-SV3.md`](kiem-thu/BANG-KIEM-THU-SV3.md) | Xác thực, phân quyền, CSDL, sao lưu và phục hồi | `kiem-thu/bang-chung/SV3/` |
-| [`BANG-KIEM-THU-SV4.md`](kiem-thu/BANG-KIEM-THU-SV4.md), [`DOI-SOAT-3-NGUON.md`](kiem-thu/DOI-SOAT-3-NGUON.md) | KT1–KT3, luồng nhật ký ba nguồn | `kiem-thu/bang-chung/minhchung-SV4/` |
+| [`BANG-KIEM-THU-SV4.md`](kiem-thu/BANG-KIEM-THU-SV4.md), [`DOI-SOAT-3-NGUON.md`](kiem-thu/DOI-SOAT-3-NGUON.md) | KT1, KT3, luồng nhật ký ba nguồn | `kiem-thu/bang-chung/KT1/`, `kiem-thu/bang-chung/KT3/` |
 
 ## 8. Phạm vi và giả định
 
